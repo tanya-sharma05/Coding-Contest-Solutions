@@ -1,33 +1,8 @@
 // You are given an array A of N elements and you should find the length of the shortest possible good subarray of A.
-//  If no good subarray exists, print -1. 
+//  If no good subarray exists, print -1. (An array is called good if it has exactly 2 distinct elements.) 
 
 #include <bits/stdc++.h>
 using namespace std;
-
-int solve(vector<int> &a){
-    int n=a.size();
-    int left=0,right=0;
-    int mini=INT_MAX;
-    unordered_map<int,int> mp;
-    while(right<n){
-        mp[a[right]]++;
-        
-        while(mp.size()>2){
-            mp[a[left]]--;
-            if(mp[a[left]]==0) mp.erase(a[left]);
-            left++;
-        }
-        
-        while(mp.size()==2){
-            mini=min(mini,right-left+1);
-            mp[a[left]]--;
-            if(mp[a[left]]==0) mp.erase(a[left]);
-            left++;
-        }
-        right++;
-    }
-    return (mini==INT_MAX)?-1:mini;
-}
 
 int main() {
 	int t;
@@ -36,10 +11,13 @@ int main() {
 	    int n;
 	    cin>>n;
 	    vector<int> a(n); 
-	    for(int i=0;i<n;i++) cin>>a[i];
-	    
-	    cout<<solve(a)<<endl;
+	    set<int> s;
+	    for(int i=0;i<n;i++){
+	        cin>>a[i];
+	        s.insert(a[i]);
+	    }
+	    if(s.size()>=2) cout<<2<<endl;
+	    else cout<<-1<<endl;
 	}
 	return 0;
 }
-
